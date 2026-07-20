@@ -1,3 +1,4 @@
+
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using SkillBridge.Data;
@@ -9,14 +10,24 @@ var builder = WebApplication.CreateBuilder(new WebApplicationOptions
     ContentRootPath = Directory.GetCurrentDirectory()
 });
 
-// 1) قاعدة البيانات SQLite
+// 1) الاتصال بقاعدة بيانات MySQL
+var connectionString = builder.Configuration
+    .GetConnectionString("DefaultConnection")
+    ?? throw new InvalidOperationException(
+        "Connection string 'DefaultConnection' not found."
+    );
+
 builder.Services.AddDbContext<AppDbContext>(options =>
-    options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection")));
+    options.UseMySql(
+        connectionString,
+        ServerVersion.AutoDetect(connectionString)
+    )
+);
 
 // 2) نظام Identity مع الأدوار
 builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options =>
 {
-    // إعدادات كلمة السر (خفّفناها شوي للتجربة)
+    // إعدادات كلمة السر
     options.Password.RequireDigit = true;
     options.Password.RequiredLength = 6;
     options.Password.RequireNonAlphanumeric = false;
@@ -58,7 +69,7 @@ app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
 
-// تشغيل الـ Seeder عند الإقلاع (ينشئ الأدوار + الأدمن + بيانات تجريبية)
+// تشغيل Seeder عند الإقلاع
 using (var scope = app.Services.CreateScope())
 {
     await DbSeeder.SeedAsync(scope.ServiceProvider);
