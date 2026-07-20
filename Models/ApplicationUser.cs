@@ -18,7 +18,7 @@ namespace SkillBridge.Models
         public string? CompanyName { get; set; }
 
         // تاريخ التسجيل
-        public DateTime JoinedAt { get; set; } = DateTime.Now;
+      public DateTime JoinedAt { get; set; } = DateTime.UtcNow;
 
         // العلاقة: تقدّم الطالب بالمراحل
         public List<StudentProgress> ProgressList { get; set; } = new List<StudentProgress>();

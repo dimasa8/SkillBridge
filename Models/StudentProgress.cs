@@ -17,6 +17,6 @@ namespace SkillBridge.Models
         public int PointsEarned { get; set; }
 
         // تاريخ إكمال المرحلة
-        public DateTime CompletedAt { get; set; } = DateTime.Now;
+        public DateTime CompletedAt { get; set; } = DateTime.UtcNow;
     }
 }

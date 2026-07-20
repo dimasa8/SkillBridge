@@ -14,7 +14,7 @@ namespace SkillBridge.Data
             var roleManager = services.GetRequiredService<RoleManager<IdentityRole>>();
 
             // تأكد إنه قاعدة البيانات موجودة (بتنشئها من الموديلات مباشرة بدون migration)
-            await context.Database.EnsureCreatedAsync();
+            await context.Database.MigrateAsync();
 
             // 1) الأدوار
             string[] roles = { "Admin", "Student", "Company" };

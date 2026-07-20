@@ -159,7 +159,7 @@ namespace SkillBridge.Controllers
                     UserId = user.Id,
                     StageId = stageId,
                     PointsEarned = earned,
-                    CompletedAt = DateTime.Now
+                    CompletedAt = DateTime.UtcNow
                 });
 
                 user.Score += earned;
