@@ -1,0 +1,67 @@
+@model Stage
+@{
+    ViewData["Title"] = Model.Title;
+    bool completed = ViewBag.Completed ?? false;
+}
+
+<div class="container py-4">
+    <a asp-action="Index" class="btn btn-light-blue btn-sm mb-3"><i class="bi bi-arrow-right me-1"></i> رجوع للمسار</a>
+
+    <div class="card mb-4"><div class="card-body">
+        <div class="d-flex justify-content-between align-items-start flex-wrap gap-2">
+            <div>
+                <span class="section-eyebrow">المرحلة @Model.Order</span>
+                <h2 class="mb-2">@Model.Title</h2>
+                <p class="text-muted mb-0">@Model.Description</p>
+            </div>
+            @if (completed)
+            {
+                <span class="role-pill role-student"><i class="bi bi-check-circle-fill me-1"></i> مكتملة</span>
+            }
+        </div>
+    </div></div>
+
+    <!-- المصادر -->
+    <h4 class="mb-3"><i class="bi bi-collection-play me-1 text-primary"></i> المصادر التعليمية</h4>
+    @if (Model.Resources.Any())
+    {
+        @foreach (var res in Model.Resources)
+        {
+            var (icon, cls) = res.Type switch
+            {
+                "video" => ("bi-play-circle-fill", "type-video"),
+                "article" => ("bi-file-text-fill", "type-article"),
+                _ => ("bi-link-45deg", "type-link")
+            };
+            <a href="@res.Url" target="_blank" class="resource-item text-decoration-none text-dark">
+                <div class="resource-type-icon @cls"><i class="bi @icon"></i></div>
+                <div class="flex-grow-1">
+                    <h6 class="mb-0">@res.Title</h6>
+                    <small class="text-muted">@res.Description</small>
+                </div>
+                <i class="bi bi-box-arrow-up-left text-muted"></i>
+            </a>
+        }
+    }
+    else
+    {
+        <div class="alert alert-info">لا توجد مصادر لهذه المرحلة بعد.</div>
+    }
+
+    <!-- الاختبار -->
+    <div class="card mt-4" style="background:var(--sky-50)"><div class="card-body text-center py-4">
+        <i class="bi bi-patch-question display-5 text-primary"></i>
+        <h4 class="mt-2">اختبار المرحلة</h4>
+        <p class="text-muted">@Model.Questions.Count أسئلة — أجب واحصل على نقاطك</p>
+        @if (Model.Questions.Any())
+        {
+            <a asp-action="Quiz" asp-route-id="@Model.Id" class="btn btn-primary btn-lg">
+                @(completed ? "إعادة الاختبار" : "ابدأ الاختبار") <i class="bi bi-arrow-left ms-1"></i>
+            </a>
+        }
+        else
+        {
+            <p class="text-muted mb-0">لا توجد أسئلة بعد.</p>
+        }
+    </div></div>
+</div>

@@ -1,0 +1,37 @@
+@model Stage
+@using Microsoft.AspNetCore.Mvc.Rendering
+@{ ViewData["Title"] = "إضافة مرحلة"; var specs = ViewBag.Specializations as SelectList; }
+<div class="container py-4" style="max-width:640px">
+    <a asp-action="Stages" class="btn btn-light-blue btn-sm mb-3"><i class="bi bi-arrow-right me-1"></i> رجوع</a>
+    <div class="card"><div class="card-body p-4">
+        <h3 class="mb-4">إضافة مرحلة جديدة</h3>
+        <form asp-action="CreateStage" method="post">
+            <div class="mb-3">
+                <label asp-for="SpecializationId" class="form-label">التخصص</label>
+                <select asp-for="SpecializationId" asp-items="specs" class="form-select"><option value="">اختر التخصص</option></select>
+                <span asp-validation-for="SpecializationId" class="text-danger small"></span>
+            </div>
+            <div class="mb-3">
+                <label asp-for="Title" class="form-label">عنوان المرحلة</label>
+                <input asp-for="Title" class="form-control" />
+                <span asp-validation-for="Title" class="text-danger small"></span>
+            </div>
+            <div class="mb-3">
+                <label asp-for="Description" class="form-label">الوصف</label>
+                <textarea asp-for="Description" class="form-control" rows="2"></textarea>
+            </div>
+            <div class="row">
+                <div class="col-6 mb-4">
+                    <label asp-for="Order" class="form-label">الترتيب</label>
+                    <input asp-for="Order" class="form-control" type="number" />
+                </div>
+                <div class="col-6 mb-4">
+                    <label asp-for="Points" class="form-label">النقاط</label>
+                    <input asp-for="Points" class="form-control" type="number" />
+                </div>
+            </div>
+            <button type="submit" class="btn btn-primary w-100">حفظ المرحلة</button>
+        </form>
+    </div></div>
+</div>
+@section Scripts { <partial name="_ValidationScriptsPartial" /> }

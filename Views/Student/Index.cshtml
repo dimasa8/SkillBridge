@@ -1,0 +1,68 @@
+@model Specialization
+@{
+    ViewData["Title"] = "لوحتي";
+    var completed = ViewBag.CompletedStageIds as List<int> ?? new List<int>();
+    int score = ViewBag.Score ?? 0;
+    var stages = Model?.Stages.OrderBy(s => s.Order).ToList() ?? new List<Stage>();
+    int doneCount = stages.Count(s => completed.Contains(s.Id));
+    int progressPct = stages.Count > 0 ? (int)((double)doneCount / stages.Count * 100) : 0;
+}
+
+<div class="container py-4">
+    <!-- بطاقة الترحيب -->
+    <div class="card mb-4" style="background:var(--grad-hero)">
+        <div class="card-body text-white d-flex flex-wrap justify-content-between align-items-center">
+            <div>
+                <h3 class="text-white mb-1">أهلاً @ViewBag.FullName 👋</h3>
+                <p class="mb-0" style="color:var(--sky-100)">مسارك: <strong>@Model?.Name</strong></p>
+            </div>
+            <div class="text-center">
+                <div class="score-badge fs-5"><i class="bi bi-star-fill"></i> @score نقطة</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- شريط التقدّم -->
+    <div class="card mb-4"><div class="card-body">
+        <div class="d-flex justify-content-between mb-2">
+            <strong>تقدّمك في المسار</strong>
+            <span class="text-muted">@doneCount من @stages.Count مراحل</span>
+        </div>
+        <div class="progress" style="height:14px;border-radius:999px">
+            <div class="progress-bar" role="progressbar" style="width:@progressPct%;background:var(--grad-blue)">@progressPct%</div>
+        </div>
+    </div></div>
+
+    <!-- المراحل -->
+    <h4 class="mb-3"><i class="bi bi-signpost-2 me-1 text-primary"></i> مراحل المسار</h4>
+    @if (stages.Any())
+    {
+        @foreach (var stage in stages)
+        {
+            bool isDone = completed.Contains(stage.Id);
+            <div class="stage-item @(isDone ? "done" : "")">
+                <div class="stage-num">
+                    @if (isDone) { <i class="bi bi-check-lg"></i> } else { @stage.Order }
+                </div>
+                <div class="flex-grow-1">
+                    <h5 class="mb-1">@stage.Title</h5>
+                    <p class="text-muted mb-0 small">@stage.Description</p>
+                    <div class="mt-2 d-flex gap-2 flex-wrap small text-muted">
+                        <span><i class="bi bi-collection-play me-1"></i>@stage.Resources.Count مصدر</span>
+                        <span><i class="bi bi-patch-question me-1"></i>@stage.Questions.Count سؤال</span>
+                        <span><i class="bi bi-star me-1"></i>@stage.Points نقطة</span>
+                    </div>
+                </div>
+                <div>
+                    <a asp-action="Stage" asp-route-id="@stage.Id" class="btn @(isDone ? "btn-outline-primary" : "btn-primary")">
+                        @(isDone ? "مراجعة" : "ابدأ") <i class="bi bi-arrow-left ms-1"></i>
+                    </a>
+                </div>
+            </div>
+        }
+    }
+    else
+    {
+        <div class="alert alert-info">لا توجد مراحل في هذا التخصص بعد. تابعنا قريباً!</div>
+    }
+</div>

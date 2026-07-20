@@ -1,0 +1,36 @@
+@model Resource
+@{ ViewData["Title"] = "إضافة مصدر"; }
+<div class="container py-4" style="max-width:640px">
+    <a asp-action="Resources" asp-route-stageId="@Model.StageId" class="btn btn-light-blue btn-sm mb-3"><i class="bi bi-arrow-right me-1"></i> رجوع</a>
+    <div class="card"><div class="card-body p-4">
+        <h3 class="mb-1">إضافة مصدر تعليمي</h3>
+        <p class="text-muted mb-4">للمرحلة: @ViewBag.StageTitle</p>
+        <form asp-action="CreateResource" method="post">
+            <input type="hidden" asp-for="StageId" />
+            <div class="mb-3">
+                <label asp-for="Title" class="form-label">عنوان المصدر</label>
+                <input asp-for="Title" class="form-control" placeholder="مثال: شرح HTML للمبتدئين" />
+                <span asp-validation-for="Title" class="text-danger small"></span>
+            </div>
+            <div class="mb-3">
+                <label asp-for="Type" class="form-label">النوع</label>
+                <select asp-for="Type" class="form-select">
+                    <option value="video">فيديو</option>
+                    <option value="article">مقال</option>
+                    <option value="link">رابط</option>
+                </select>
+            </div>
+            <div class="mb-3">
+                <label asp-for="Url" class="form-label">الرابط</label>
+                <input asp-for="Url" class="form-control" placeholder="https://..." dir="ltr" />
+                <span asp-validation-for="Url" class="text-danger small"></span>
+            </div>
+            <div class="mb-4">
+                <label asp-for="Description" class="form-label">وصف مختصر</label>
+                <textarea asp-for="Description" class="form-control" rows="2"></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary w-100">حفظ المصدر</button>
+        </form>
+    </div></div>
+</div>
+@section Scripts { <partial name="_ValidationScriptsPartial" /> }

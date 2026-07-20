@@ -1,0 +1,54 @@
+@model ApplicationUser
+@{
+    ViewData["Title"] = Model.FullName;
+    var progress = ViewBag.Progress as List<StudentProgress> ?? new List<StudentProgress>();
+}
+
+<div class="container py-4">
+    <a asp-action="Students" class="btn btn-light-blue btn-sm mb-3"><i class="bi bi-arrow-right me-1"></i> رجوع للطلاب</a>
+
+    <div class="row g-4">
+        <div class="col-lg-4">
+            <div class="card text-center"><div class="card-body p-4">
+                <div class="spec-icon mx-auto" style="width:80px;height:80px;font-size:2.2rem"><i class="bi bi-person-fill"></i></div>
+                <h4 class="mt-3 mb-1">@Model.FullName</h4>
+                <span class="role-pill role-student mb-3 d-inline-block">@(Model.Specialization?.Name ?? "بدون تخصص")</span>
+                <hr>
+                <div class="score-badge fs-6 mb-3"><i class="bi bi-star-fill"></i> @Model.Score نقطة</div>
+                <p class="text-muted small mb-1">انضم في @Model.JoinedAt.ToString("yyyy/MM/dd")</p>
+                <hr>
+                <h6 class="text-muted">للتواصل</h6>
+                <a href="mailto:@Model.Email" class="btn btn-primary w-100">
+                    <i class="bi bi-envelope me-1"></i> راسل الطالب
+                </a>
+                <p class="small text-muted mt-2 mb-0" dir="ltr">@Model.Email</p>
+            </div></div>
+        </div>
+
+        <div class="col-lg-8">
+            <div class="card"><div class="card-body">
+                <h4 class="mb-3"><i class="bi bi-trophy me-1 text-primary"></i> إنجازات الطالب</h4>
+                @if (progress.Any())
+                {
+                    <table class="table table-clean mb-0">
+                        <thead><tr><th>المرحلة</th><th>النقاط</th><th>التاريخ</th></tr></thead>
+                        <tbody>
+                            @foreach (var p in progress)
+                            {
+                                <tr>
+                                    <td><i class="bi bi-check-circle-fill text-success me-1"></i> @p.Stage?.Title</td>
+                                    <td>@p.PointsEarned</td>
+                                    <td class="text-muted small">@p.CompletedAt.ToString("yyyy/MM/dd")</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                }
+                else
+                {
+                    <div class="alert alert-info mb-0">لم يكمل هذا الطالب أي مرحلة بعد.</div>
+                }
+            </div></div>
+        </div>
+    </div>
+</div>

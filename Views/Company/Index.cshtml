@@ -1,0 +1,63 @@
+@model List<Specialization>
+@{
+    ViewData["Title"] = "لوحة الشركة";
+    var topStudents = ViewBag.TopStudents as List<ApplicationUser> ?? new List<ApplicationUser>();
+}
+
+<div class="container py-4">
+    <div class="card mb-4" style="background:var(--grad-hero)"><div class="card-body text-white">
+        <h3 class="text-white mb-1"><i class="bi bi-building me-1"></i> لوحة الشركة</h3>
+        <p class="mb-0" style="color:var(--sky-100)">استكشف التخصصات واكتشف أفضل المواهب حسب إنجازهم الحقيقي.</p>
+    </div></div>
+
+    <div class="row g-4">
+        <!-- التخصصات -->
+        <div class="col-lg-7">
+            <h4 class="mb-3"><i class="bi bi-collection me-1 text-primary"></i> التخصصات المتاحة</h4>
+            <div class="row g-3">
+                @foreach (var spec in Model)
+                {
+                    <div class="col-md-6">
+                        <div class="card h-100"><div class="card-body">
+                            <div class="d-flex align-items-center gap-2 mb-2">
+                                <div class="resource-type-icon type-article"><i class="bi @(string.IsNullOrEmpty(spec.Icon) ? "bi-book" : spec.Icon)"></i></div>
+                                <h5 class="mb-0">@spec.Name</h5>
+                            </div>
+                            <p class="text-muted small">@spec.Description</p>
+                            <a asp-action="Students" asp-route-specializationId="@spec.Id" class="btn btn-outline-primary btn-sm w-100">
+                                عرض طلاب هذا التخصص
+                            </a>
+                        </div></div>
+                    </div>
+                }
+            </div>
+        </div>
+
+        <!-- أفضل الطلاب -->
+        <div class="col-lg-5">
+            <h4 class="mb-3"><i class="bi bi-award me-1 text-primary"></i> أفضل الطلاب</h4>
+            <div class="card"><div class="card-body">
+                @if (topStudents.Any())
+                {
+                    int rank = 1;
+                    @foreach (var s in topStudents)
+                    {
+                        <div class="d-flex align-items-center gap-3 py-2 @(rank < topStudents.Count ? "border-bottom" : "")">
+                            <div class="stage-num" style="width:38px;height:38px;background:@(rank==1?"var(--gold)":"var(--sky-100)");color:@(rank==1?"#fff":"var(--blue-700)")">@rank</div>
+                            <div class="flex-grow-1">
+                                <a asp-action="StudentProfile" asp-route-id="@s.Id" class="text-decoration-none fw-bold text-dark">@s.FullName</a>
+                            </div>
+                            <span class="score-badge" style="font-size:.8rem;padding:.25rem .7rem"><i class="bi bi-star-fill"></i> @s.Score</span>
+                        </div>
+                        rank++;
+                    }
+                }
+                else
+                {
+                    <p class="text-muted mb-0">لا يوجد طلاب بعد.</p>
+                }
+            </div></div>
+            <a asp-action="Students" class="btn btn-primary w-100 mt-3">عرض كل الطلاب <i class="bi bi-arrow-left ms-1"></i></a>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,50 @@
+@model Question
+@{ ViewData["Title"] = "إضافة سؤال"; }
+<div class="container py-4" style="max-width:640px">
+    <a asp-action="Questions" asp-route-stageId="@Model.StageId" class="btn btn-light-blue btn-sm mb-3"><i class="bi bi-arrow-right me-1"></i> رجوع</a>
+    <div class="card"><div class="card-body p-4">
+        <h3 class="mb-1">إضافة سؤال</h3>
+        <p class="text-muted mb-4">للمرحلة: @ViewBag.StageTitle</p>
+        <form asp-action="CreateQuestion" method="post">
+            <input type="hidden" asp-for="StageId" />
+            <div class="mb-3">
+                <label asp-for="Text" class="form-label">نص السؤال</label>
+                <textarea asp-for="Text" class="form-control" rows="2"></textarea>
+                <span asp-validation-for="Text" class="text-danger small"></span>
+            </div>
+            <div class="mb-2">
+                <label asp-for="OptionA" class="form-label">الخيار أ</label>
+                <input asp-for="OptionA" class="form-control" />
+            </div>
+            <div class="mb-2">
+                <label asp-for="OptionB" class="form-label">الخيار ب</label>
+                <input asp-for="OptionB" class="form-control" />
+            </div>
+            <div class="mb-2">
+                <label asp-for="OptionC" class="form-label">الخيار ج</label>
+                <input asp-for="OptionC" class="form-control" />
+            </div>
+            <div class="mb-3">
+                <label asp-for="OptionD" class="form-label">الخيار د</label>
+                <input asp-for="OptionD" class="form-control" />
+            </div>
+            <div class="row">
+                <div class="col-6 mb-4">
+                    <label asp-for="CorrectOption" class="form-label">الإجابة الصحيحة</label>
+                    <select asp-for="CorrectOption" class="form-select">
+                        <option value="A">أ</option>
+                        <option value="B">ب</option>
+                        <option value="C">ج</option>
+                        <option value="D">د</option>
+                    </select>
+                </div>
+                <div class="col-6 mb-4">
+                    <label asp-for="Points" class="form-label">نقاط السؤال</label>
+                    <input asp-for="Points" class="form-control" type="number" />
+                </div>
+            </div>
+            <button type="submit" class="btn btn-primary w-100">حفظ السؤال</button>
+        </form>
+    </div></div>
+</div>
+@section Scripts { <partial name="_ValidationScriptsPartial" /> }

@@ -1,0 +1,42 @@
+@model List<Specialization>
+@{ ViewData["Title"] = "التخصصات"; }
+
+<div class="container py-4">
+    <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-2">
+        <div><span class="section-eyebrow">الإدارة</span><h2 class="mb-0">التخصصات</h2></div>
+        <a asp-action="CreateSpecialization" class="btn btn-primary"><i class="bi bi-plus-lg me-1"></i> إضافة تخصص</a>
+    </div>
+
+    @if (Model.Any())
+    {
+        <div class="row g-3">
+            @foreach (var spec in Model)
+            {
+                <div class="col-md-6">
+                    <div class="card"><div class="card-body">
+                        <div class="d-flex align-items-center gap-3 mb-3">
+                            <div class="spec-icon" style="width:52px;height:52px;font-size:1.4rem;margin:0"><i class="bi @(string.IsNullOrEmpty(spec.Icon) ? "bi-book" : spec.Icon)"></i></div>
+                            <div class="flex-grow-1">
+                                <h5 class="mb-0">@spec.Name</h5>
+                                <small class="text-muted">@spec.Stages.Count مراحل</small>
+                            </div>
+                        </div>
+                        <p class="text-muted small">@spec.Description</p>
+                        <div class="d-flex gap-2 flex-wrap">
+                            <a asp-action="Stages" asp-route-specializationId="@spec.Id" class="btn btn-outline-primary btn-sm"><i class="bi bi-signpost-2 me-1"></i> المراحل</a>
+                            <a asp-action="EditSpecialization" asp-route-id="@spec.Id" class="btn btn-light-blue btn-sm"><i class="bi bi-pencil me-1"></i> تعديل</a>
+                            <form asp-action="DeleteSpecialization" method="post" onsubmit="return confirm('متأكدة من حذف التخصص وكل مراحله؟')">
+                                <input type="hidden" name="id" value="@spec.Id" />
+                                <button class="btn btn-danger btn-sm"><i class="bi bi-trash"></i></button>
+                            </form>
+                        </div>
+                    </div></div>
+                </div>
+            }
+        </div>
+    }
+    else
+    {
+        <div class="alert alert-info">لا توجد تخصصات. ابدأ بإضافة تخصص جديد.</div>
+    }
+</div>

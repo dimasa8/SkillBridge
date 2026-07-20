@@ -1,0 +1,56 @@
+@model List<Stage>
+@{
+    ViewData["Title"] = "المراحل";
+    var specs = ViewBag.Specializations as List<Specialization> ?? new List<Specialization>();
+    int? selected = ViewBag.SelectedSpecialization;
+}
+
+<div class="container py-4">
+    <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-2">
+        <div><span class="section-eyebrow">الإدارة</span><h2 class="mb-0">المراحل</h2></div>
+        <div class="d-flex gap-2 flex-wrap">
+            <form method="get">
+                <select name="specializationId" class="form-select" onchange="this.form.submit()">
+                    <option value="">كل التخصصات</option>
+                    @foreach (var s in specs)
+                    {
+                        <option value="@s.Id" selected="@(selected == s.Id)">@s.Name</option>
+                    }
+                </select>
+            </form>
+            <a asp-action="CreateStage" asp-route-specializationId="@selected" class="btn btn-primary"><i class="bi bi-plus-lg me-1"></i> إضافة مرحلة</a>
+        </div>
+    </div>
+
+    @if (Model.Any())
+    {
+        @foreach (var stage in Model)
+        {
+            <div class="stage-item">
+                <div class="stage-num">@stage.Order</div>
+                <div class="flex-grow-1">
+                    <h5 class="mb-1">@stage.Title <small class="text-muted">— @stage.Specialization?.Name</small></h5>
+                    <p class="text-muted small mb-2">@stage.Description</p>
+                    <div class="d-flex gap-2 flex-wrap small text-muted">
+                        <span><i class="bi bi-collection-play me-1"></i>@stage.Resources.Count مصدر</span>
+                        <span><i class="bi bi-patch-question me-1"></i>@stage.Questions.Count سؤال</span>
+                        <span><i class="bi bi-star me-1"></i>@stage.Points نقطة</span>
+                    </div>
+                </div>
+                <div class="d-flex gap-1 flex-wrap">
+                    <a asp-action="Resources" asp-route-stageId="@stage.Id" class="btn btn-outline-primary btn-sm" title="المصادر"><i class="bi bi-collection-play"></i></a>
+                    <a asp-action="Questions" asp-route-stageId="@stage.Id" class="btn btn-outline-primary btn-sm" title="الأسئلة"><i class="bi bi-patch-question"></i></a>
+                    <a asp-action="EditStage" asp-route-id="@stage.Id" class="btn btn-light-blue btn-sm"><i class="bi bi-pencil"></i></a>
+                    <form asp-action="DeleteStage" method="post" onsubmit="return confirm('حذف المرحلة وكل محتواها؟')">
+                        <input type="hidden" name="id" value="@stage.Id" />
+                        <button class="btn btn-danger btn-sm"><i class="bi bi-trash"></i></button>
+                    </form>
+                </div>
+            </div>
+        }
+    }
+    else
+    {
+        <div class="alert alert-info">لا توجد مراحل. أضف مرحلة جديدة.</div>
+    }
+</div>

@@ -1,0 +1,27 @@
+@model List<ApplicationUser>
+@{ ViewData["Title"] = "الطلاب"; }
+<div class="container py-4">
+    <div class="mb-4"><span class="section-eyebrow">الإدارة</span><h2 class="mb-0">الطلاب المسجّلون (@Model.Count)</h2></div>
+    @if (Model.Any())
+    {
+        <table class="table table-clean">
+            <thead><tr><th>#</th><th>الاسم</th><th>البريد</th><th>التخصص</th><th>النقاط</th><th>انضم في</th></tr></thead>
+            <tbody>
+                @{ int i = 1; }
+                @foreach (var s in Model)
+                {
+                    <tr>
+                        <td>@i</td>
+                        <td class="fw-bold">@s.FullName</td>
+                        <td class="small" dir="ltr">@s.Email</td>
+                        <td>@(s.Specialization?.Name ?? "—")</td>
+                        <td><span class="score-badge" style="font-size:.8rem;padding:.2rem .7rem"><i class="bi bi-star-fill"></i> @s.Score</span></td>
+                        <td class="small text-muted">@s.JoinedAt.ToString("yyyy/MM/dd")</td>
+                    </tr>
+                    i++;
+                }
+            </tbody>
+        </table>
+    }
+    else { <div class="alert alert-info">لا يوجد طلاب مسجّلون بعد.</div> }
+</div>

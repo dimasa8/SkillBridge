@@ -1,0 +1,71 @@
+@{ ViewData["Title"] = "لوحة التحكم"; }
+
+<div class="container py-4">
+    <div class="mb-4">
+        <span class="section-eyebrow">لوحة التحكم</span>
+        <h2 class="mb-0">مرحباً بك في إدارة SkillBridge</h2>
+    </div>
+
+    <div class="row g-3 mb-4">
+        <div class="col-md-4">
+            <div class="stat-card">
+                <div class="stat-icon"><i class="bi bi-collection"></i></div>
+                <div><div class="stat-value">@ViewBag.SpecializationCount</div><div class="stat-label">تخصص</div></div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="stat-card">
+                <div class="stat-icon"><i class="bi bi-signpost-2"></i></div>
+                <div><div class="stat-value">@ViewBag.StageCount</div><div class="stat-label">مرحلة</div></div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="stat-card">
+                <div class="stat-icon"><i class="bi bi-collection-play"></i></div>
+                <div><div class="stat-value">@ViewBag.ResourceCount</div><div class="stat-label">مصدر تعليمي</div></div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="stat-card">
+                <div class="stat-icon"><i class="bi bi-patch-question"></i></div>
+                <div><div class="stat-value">@ViewBag.QuestionCount</div><div class="stat-label">سؤال</div></div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="stat-card">
+                <div class="stat-icon"><i class="bi bi-mortarboard"></i></div>
+                <div><div class="stat-value">@ViewBag.StudentCount</div><div class="stat-label">طالب</div></div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="stat-card">
+                <div class="stat-icon"><i class="bi bi-building"></i></div>
+                <div><div class="stat-value">@ViewBag.CompanyCount</div><div class="stat-label">شركة</div></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row g-3">
+        <div class="col-md-4">
+            <a asp-action="Specializations" class="card text-decoration-none d-block h-100"><div class="card-body text-center py-4">
+                <i class="bi bi-collection display-6 text-primary"></i>
+                <h5 class="mt-2 mb-0">إدارة التخصصات</h5>
+                <small class="text-muted">أضف وعدّل المسارات</small>
+            </div></a>
+        </div>
+        <div class="col-md-4">
+            <a asp-action="Students" class="card text-decoration-none d-block h-100"><div class="card-body text-center py-4">
+                <i class="bi bi-mortarboard display-6 text-primary"></i>
+                <h5 class="mt-2 mb-0">الطلاب</h5>
+                <small class="text-muted">تابع الطلاب ونقاطهم</small>
+            </div></a>
+        </div>
+        <div class="col-md-4">
+            <a asp-action="Companies" class="card text-decoration-none d-block h-100"><div class="card-body text-center py-4">
+                <i class="bi bi-building display-6 text-primary"></i>
+                <h5 class="mt-2 mb-0">الشركات</h5>
+                <small class="text-muted">تابع الشركات المسجّلة</small>
+            </div></a>
+        </div>
+    </div>
+</div>

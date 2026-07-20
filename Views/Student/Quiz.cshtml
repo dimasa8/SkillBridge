@@ -1,0 +1,44 @@
+@model Stage
+@{ ViewData["Title"] = "اختبار: " + Model.Title; }
+
+<div class="container py-4" style="max-width:760px">
+    <div class="text-center mb-4">
+        <span class="section-eyebrow">اختبار المرحلة</span>
+        <h2>@Model.Title</h2>
+        <p class="text-muted">أجب على كل الأسئلة ثم اضغط "إرسال الإجابات"</p>
+    </div>
+
+    <form asp-action="SubmitQuiz" method="post">
+        <input type="hidden" name="stageId" value="@Model.Id" />
+
+        @{ int qNum = 1; }
+        @foreach (var q in Model.Questions)
+        {
+            <div class="quiz-question">
+                <div class="d-flex gap-2 mb-3">
+                    <span class="stage-num" style="width:34px;height:34px;font-size:.9rem">@qNum</span>
+                    <h5 class="mb-0 pt-1">@q.Text</h5>
+                </div>
+                <label class="quiz-option">
+                    <input type="radio" name="answers[@q.Id]" value="A" required /> @q.OptionA
+                </label>
+                <label class="quiz-option">
+                    <input type="radio" name="answers[@q.Id]" value="B" /> @q.OptionB
+                </label>
+                <label class="quiz-option">
+                    <input type="radio" name="answers[@q.Id]" value="C" /> @q.OptionC
+                </label>
+                <label class="quiz-option">
+                    <input type="radio" name="answers[@q.Id]" value="D" /> @q.OptionD
+                </label>
+            </div>
+            qNum++;
+        }
+
+        <div class="text-center mt-4">
+            <button type="submit" class="btn btn-primary btn-lg px-5">
+                <i class="bi bi-send me-1"></i> إرسال الإجابات
+            </button>
+        </div>
+    </form>
+</div>

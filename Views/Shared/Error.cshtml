@@ -1,0 +1,11 @@
+@model ErrorViewModel
+@{ ViewData["Title"] = "خطأ"; }
+<div class="container py-5 text-center">
+    <h1 class="display-4 text-danger">حدث خطأ</h1>
+    <p class="lead">نأسف، صار خطأ أثناء معالجة طلبك.</p>
+    @if (Model.ShowRequestId)
+    {
+        <p class="text-muted small">رقم الطلب: <code>@Model.RequestId</code></p>
+    }
+    <a asp-controller="Home" asp-action="Index" class="btn btn-primary mt-3">العودة للرئيسية</a>
+</div>

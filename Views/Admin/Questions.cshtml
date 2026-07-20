@@ -1,0 +1,43 @@
+@model Stage
+@{ ViewData["Title"] = "أسئلة: " + Model.Title; }
+
+<div class="container py-4">
+    <a asp-action="Stages" asp-route-specializationId="@Model.SpecializationId" class="btn btn-light-blue btn-sm mb-3"><i class="bi bi-arrow-right me-1"></i> رجوع للمراحل</a>
+
+    <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-2">
+        <div>
+            <span class="section-eyebrow">@Model.Specialization?.Name</span>
+            <h2 class="mb-0">أسئلة: @Model.Title</h2>
+        </div>
+        <a asp-action="CreateQuestion" asp-route-stageId="@Model.Id" class="btn btn-primary"><i class="bi bi-plus-lg me-1"></i> إضافة سؤال</a>
+    </div>
+
+    @if (Model.Questions.Any())
+    {
+        int n = 1;
+        @foreach (var q in Model.Questions)
+        {
+            <div class="quiz-question">
+                <div class="d-flex justify-content-between align-items-start mb-2">
+                    <h5 class="mb-0"><span class="text-primary">@n.</span> @q.Text</h5>
+                    <form asp-action="DeleteQuestion" method="post" onsubmit="return confirm('حذف السؤال؟')">
+                        <input type="hidden" name="id" value="@q.Id" />
+                        <button class="btn btn-danger btn-sm"><i class="bi bi-trash"></i></button>
+                    </form>
+                </div>
+                <div class="row g-2 small">
+                    <div class="col-md-6"><span class="@(q.CorrectOption == "A" ? "fw-bold text-success" : "")">أ) @q.OptionA @(q.CorrectOption == "A" ? "✓" : "")</span></div>
+                    <div class="col-md-6"><span class="@(q.CorrectOption == "B" ? "fw-bold text-success" : "")">ب) @q.OptionB @(q.CorrectOption == "B" ? "✓" : "")</span></div>
+                    <div class="col-md-6"><span class="@(q.CorrectOption == "C" ? "fw-bold text-success" : "")">ج) @q.OptionC @(q.CorrectOption == "C" ? "✓" : "")</span></div>
+                    <div class="col-md-6"><span class="@(q.CorrectOption == "D" ? "fw-bold text-success" : "")">د) @q.OptionD @(q.CorrectOption == "D" ? "✓" : "")</span></div>
+                </div>
+                <div class="mt-2"><span class="role-pill role-student"><i class="bi bi-star me-1"></i>@q.Points نقطة</span></div>
+            </div>
+            n++;
+        }
+    }
+    else
+    {
+        <div class="alert alert-info">لا توجد أسئلة لهذه المرحلة. أضف سؤال جديد.</div>
+    }
+</div>

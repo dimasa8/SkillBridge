@@ -1,0 +1,26 @@
+@model Specialization
+@{ ViewData["Title"] = "إضافة تخصص"; }
+<div class="container py-4" style="max-width:640px">
+    <a asp-action="Specializations" class="btn btn-light-blue btn-sm mb-3"><i class="bi bi-arrow-right me-1"></i> رجوع</a>
+    <div class="card"><div class="card-body p-4">
+        <h3 class="mb-4">إضافة تخصص جديد</h3>
+        <form asp-action="CreateSpecialization" method="post">
+            <div class="mb-3">
+                <label asp-for="Name" class="form-label">اسم التخصص</label>
+                <input asp-for="Name" class="form-control" placeholder="مثال: تطوير الويب" />
+                <span asp-validation-for="Name" class="text-danger small"></span>
+            </div>
+            <div class="mb-3">
+                <label asp-for="Icon" class="form-label">أيقونة (Bootstrap Icon)</label>
+                <input asp-for="Icon" class="form-control" placeholder="مثال: bi-code-slash" dir="ltr" />
+                <small class="text-muted">من موقع icons.getbootstrap.com — انسخي اسم الأيقونة</small>
+            </div>
+            <div class="mb-4">
+                <label asp-for="Description" class="form-label">الوصف</label>
+                <textarea asp-for="Description" class="form-control" rows="3"></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary w-100">حفظ التخصص</button>
+        </form>
+    </div></div>
+</div>
+@section Scripts { <partial name="_ValidationScriptsPartial" /> }

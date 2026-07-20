@@ -1,0 +1,26 @@
+@model List<ApplicationUser>
+@{ ViewData["Title"] = "الشركات"; }
+<div class="container py-4">
+    <div class="mb-4"><span class="section-eyebrow">الإدارة</span><h2 class="mb-0">الشركات المسجّلة (@Model.Count)</h2></div>
+    @if (Model.Any())
+    {
+        <table class="table table-clean">
+            <thead><tr><th>#</th><th>اسم الشركة</th><th>المسؤول</th><th>البريد</th><th>انضمت في</th></tr></thead>
+            <tbody>
+                @{ int i = 1; }
+                @foreach (var c in Model)
+                {
+                    <tr>
+                        <td>@i</td>
+                        <td class="fw-bold">@c.CompanyName</td>
+                        <td>@c.FullName</td>
+                        <td class="small" dir="ltr">@c.Email</td>
+                        <td class="small text-muted">@c.JoinedAt.ToString("yyyy/MM/dd")</td>
+                    </tr>
+                    i++;
+                }
+            </tbody>
+        </table>
+    }
+    else { <div class="alert alert-info">لا توجد شركات مسجّلة بعد.</div> }
+</div>

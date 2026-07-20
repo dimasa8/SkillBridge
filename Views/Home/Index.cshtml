@@ -1,0 +1,74 @@
+@model List<Specialization>
+@{ ViewData["Title"] = "الرئيسية"; }
+
+<section class="hero">
+    <div class="container position-relative" style="z-index:2">
+        <span class="hero-badge"><i class="bi bi-stars me-1"></i> منصة فلسطينية لبناء المهارات</span>
+        <h1>الجسر بين مهاراتك<br>وسوق العمل</h1>
+        <p>تعلّم عبر مسارات منظّمة، اجمع نقاطك، واجعل الشركات تكتشفك بناءً على إنجازك الحقيقي.</p>
+        <div class="mt-4 d-flex gap-2 flex-wrap">
+            <a asp-controller="Account" asp-action="Register" class="btn btn-primary btn-lg">ابدأ رحلتك</a>
+            <a href="#specs" class="btn btn-light-blue btn-lg">استكشف التخصصات</a>
+        </div>
+    </div>
+</section>
+
+<section class="py-5">
+    <div class="container">
+        <div class="row g-4 text-center">
+            <div class="col-md-4">
+                <div class="spec-card card"><div class="card-body">
+                    <div class="spec-icon"><i class="bi bi-signpost-split"></i></div>
+                    <h4>مسارات منظّمة</h4>
+                    <p class="text-muted mb-0">مراحل مرتّبة من الأساسيات للاحتراف مع مصادر مختارة.</p>
+                </div></div>
+            </div>
+            <div class="col-md-4">
+                <div class="spec-card card"><div class="card-body">
+                    <div class="spec-icon"><i class="bi bi-trophy"></i></div>
+                    <h4>نظام نقاط تحفيزي</h4>
+                    <p class="text-muted mb-0">اجمع النقاط مع كل مرحلة تخلّصها وتابع تقدّمك.</p>
+                </div></div>
+            </div>
+            <div class="col-md-4">
+                <div class="spec-card card"><div class="card-body">
+                    <div class="spec-icon"><i class="bi bi-building-check"></i></div>
+                    <h4>الشركات تكتشفك</h4>
+                    <p class="text-muted mb-0">إنجازك يظهر للشركات فتتواصل معك حسب مهاراتك.</p>
+                </div></div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section id="specs" class="py-5" style="background:#fff">
+    <div class="container">
+        <div class="text-center mb-5">
+            <span class="section-eyebrow">التخصصات المتاحة</span>
+            <h2 class="section-title">اختر مسارك وابدأ التعلّم</h2>
+        </div>
+        <div class="row g-4">
+            @if (Model.Any())
+            {
+                @foreach (var spec in Model)
+                {
+                    <div class="col-md-4">
+                        <div class="spec-card card"><div class="card-body">
+                            <div class="spec-icon"><i class="bi @(string.IsNullOrEmpty(spec.Icon) ? "bi-book" : spec.Icon)"></i></div>
+                            <h4>@spec.Name</h4>
+                            <p class="text-muted">@spec.Description</p>
+                            <span class="role-pill role-student">@spec.Stages.Count مراحل</span>
+                        </div></div>
+                    </div>
+                }
+            }
+            else
+            {
+                <div class="col-12 text-center text-muted">لا توجد تخصصات بعد.</div>
+            }
+        </div>
+        <div class="text-center mt-5">
+            <a asp-controller="Account" asp-action="Register" class="btn btn-primary btn-lg">سجّل الآن وابدأ مجاناً</a>
+        </div>
+    </div>
+</section>

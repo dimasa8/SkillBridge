@@ -1,0 +1,81 @@
+@model RegisterViewModel
+@{ ViewData["Title"] = "إنشاء حساب"; }
+
+<div class="auth-wrap">
+    <div class="auth-card">
+        <div class="auth-head">
+            <h2>انضم إلى SkillBridge</h2>
+            <p>ابنِ مهاراتك أو اكتشف المواهب</p>
+        </div>
+        <div class="auth-body">
+            <form asp-action="Register" method="post">
+                <div asp-validation-summary="ModelOnly" class="alert alert-danger py-2" style="display:@(ViewData.ModelState.ErrorCount > 0 ? "block" : "none")"></div>
+
+                <div class="mb-3">
+                    <label class="form-label">نوع الحساب</label>
+                    <div class="role-select">
+                        <label>
+                            <input type="radio" asp-for="Role" value="Student" checked />
+                            <i class="bi bi-mortarboard d-block fs-4 mb-1"></i>
+                            طالب
+                        </label>
+                        <label>
+                            <input type="radio" asp-for="Role" value="Company" />
+                            <i class="bi bi-building d-block fs-4 mb-1"></i>
+                            شركة
+                        </label>
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    <label asp-for="FullName" class="form-label"></label>
+                    <input asp-for="FullName" class="form-control" placeholder="اكتب اسمك" />
+                    <span asp-validation-for="FullName" class="text-danger small"></span>
+                </div>
+
+                <div class="mb-3" id="companyField" style="display:none">
+                    <label asp-for="CompanyName" class="form-label"></label>
+                    <input asp-for="CompanyName" class="form-control" placeholder="اسم الشركة" />
+                    <span asp-validation-for="CompanyName" class="text-danger small"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label asp-for="Email" class="form-label"></label>
+                    <input asp-for="Email" class="form-control" placeholder="example@email.com" dir="ltr" />
+                    <span asp-validation-for="Email" class="text-danger small"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label asp-for="Password" class="form-label"></label>
+                    <input asp-for="Password" class="form-control" dir="ltr" />
+                    <span asp-validation-for="Password" class="text-danger small"></span>
+                </div>
+
+                <div class="mb-4">
+                    <label asp-for="ConfirmPassword" class="form-label"></label>
+                    <input asp-for="ConfirmPassword" class="form-control" dir="ltr" />
+                    <span asp-validation-for="ConfirmPassword" class="text-danger small"></span>
+                </div>
+
+                <button type="submit" class="btn btn-primary w-100 mb-3">إنشاء الحساب</button>
+                <p class="text-center mb-0 small">
+                    عندك حساب؟ <a asp-action="Login">سجّل دخول</a>
+                </p>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <script>
+        function toggleCompany() {
+            var isCompany = document.querySelector('input[name="Role"]:checked').value === 'Company';
+            document.getElementById('companyField').style.display = isCompany ? 'block' : 'none';
+        }
+        document.querySelectorAll('input[name="Role"]').forEach(function (r) {
+            r.addEventListener('change', toggleCompany);
+        });
+        toggleCompany();
+    </script>
+}
