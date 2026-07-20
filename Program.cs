@@ -3,7 +3,11 @@ using Microsoft.EntityFrameworkCore;
 using SkillBridge.Data;
 using SkillBridge.Models;
 
-var builder = WebApplication.CreateBuilder(args);
+var builder = WebApplication.CreateBuilder(new WebApplicationOptions
+{
+    Args = args,
+    ContentRootPath = Directory.GetCurrentDirectory()
+});
 
 // 1) قاعدة البيانات SQLite
 builder.Services.AddDbContext<AppDbContext>(options =>
